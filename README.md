@@ -2,4 +2,5 @@
 
 ### Projects Done:
 
-- Warmup Project 0
+- Project 0: LED Blink + Button
+- Project 1: PWM LED Dimmer w/ Analog Input
