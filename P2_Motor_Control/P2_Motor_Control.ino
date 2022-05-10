@@ -9,8 +9,8 @@
  * modified 15 Apr 2022
  */
 
-#define IN1_PIN 19
-#define IN2_PIN 15
+#define IN1_PIN 23
+#define IN2_PIN 13
 
 int outPorts[] = {14, 27, 26, 25};
 volatile int currentState = 1;
@@ -37,6 +37,7 @@ void setup()
     attachInterrupt(digitalPinToInterrupt(IN1_PIN), in1Routine, RISING);
     attachInterrupt(digitalPinToInterrupt(IN2_PIN), in2Routine, RISING);
     Serial.begin(9600);
+    interrupts();
 }
 void loop()
 {
@@ -63,6 +64,7 @@ void loop()
 
 void in1Routine()
 {
+    noInterrupts();
     Serial.println("In 1");
     if (currentState == 1 && savedState == 1) // if STOPPED and no speed set
     {
@@ -76,11 +78,12 @@ void in1Routine()
     {
         currentState++;
     }
+    interrupts();
 }
 
 void in2Routine()
 {
-
+    noInterrupts();
     Serial.println("In 2");
     if (currentState != 1) // if not STOPPED, save speed and stop
     {
@@ -91,6 +94,7 @@ void in2Routine()
     { // set speed to saved value
         savedState = 1;
     }
+    interrupts();
 }
 
 void moveOneStep(bool dir)
